@@ -3,7 +3,7 @@
 import { noop, extend } from 'shared/util'
 import { warn as baseWarn, tip } from 'core/util/debug'
 import { generateCodeFrame } from './codeframe'
-import LRU from "lru-cache";
+const LRU = require("lru-cache");
 
 type CompiledFunctionResult = {
   render: Function;
