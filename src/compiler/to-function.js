@@ -3,7 +3,6 @@
 import { noop, extend } from 'shared/util'
 import { warn as baseWarn, tip } from 'core/util/debug'
 import { generateCodeFrame } from './codeframe'
-const LRU = require("lru-cache");
 
 type CompiledFunctionResult = {
   render: Function;
@@ -20,7 +19,6 @@ function createFunction (code, errors) {
 }
 
 export function createCompileToFunctionFn (compile: Function): Function {
-  const cache = new LRU(50);
 
   return function compileToFunctions (
     template: string,
@@ -47,17 +45,6 @@ export function createCompileToFunctionFn (compile: Function): Function {
           )
         }
       }
-    }
-
-    // check cache
-    const key = options.delimiters
-      ? String(options.delimiters) + template
-      : template
-
-    const cacheResult = cache.get(key);
-
-    if (cacheResult) {
-      return cacheResult
     }
 
     // compile
@@ -112,8 +99,6 @@ export function createCompileToFunctionFn (compile: Function): Function {
         )
       }
     }
-
-    cache.set(key, res);
 
     return res;
   }
